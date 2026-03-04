@@ -18,9 +18,8 @@ public class Pedido {
     }
 
     public Document generarPedido() {
-        Document pedido = new Document("Libro", this.nLibro)
+        return new Document("Libro", this.nLibro)
                 .append("Cantidad", this.cantidad)
                 .append("Total", this.total);
-        return pedido;
     }
 }

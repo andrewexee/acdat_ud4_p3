@@ -18,9 +18,8 @@ public class Libro {
     }
 
     public Document generarLibro() {
-        Document libro = new Document("Titulo", this.titulo)
+        return new Document("Titulo", this.titulo)
                 .append("Autor", this.autor)
                 .append("Precio", this.precio);
-        return libro;
     }
 }

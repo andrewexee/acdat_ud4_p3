@@ -25,7 +25,7 @@ public class Main {
 
             System.out.println("""
                 ==============================
-                        APP PRINCIPAL         
+                        APP PRINCIPAL
                     GESTIÓN DE BIBLIOTECA
                 ==============================""");
 
@@ -126,5 +126,3 @@ public class Main {
         }
     }
 }
-
-
