@@ -44,8 +44,6 @@ public class Main {
                     case 3:
                         break;
                     case 4:
-                        break;
-                    case 5:
                         System.out.println("""
                                 ==============================
                                            NOS VEMOS
@@ -54,7 +52,7 @@ public class Main {
                         break;
                     default:
                 }
-            } while (opcion != 5);
+            } while (opcion != 4);
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
@@ -67,14 +65,17 @@ public class Main {
         System.out.println("""
                 -----------------
                 1. Crear
-                2. Insertar
-                3. Actualizar
-                4. Borrar
-                5. Salir
+                2. Actualizar
+                3. Borrar
+                4. Salir
                 -----------------
                 """);
     }
 
+    /**
+     * Metodo para insertar Libros o Pedidos en sus respectivas colecciones
+     * @param db DB donde se generarán las colecciones
+     */
     public static void crear(MongoDatabase db) {
         Scanner selector = new Scanner(System.in);
         String titulo, autor;
