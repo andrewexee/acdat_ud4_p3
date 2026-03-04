@@ -4,7 +4,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.andrew.db.SingletonConnection;
 
+import org.andrew.model.Libro;
+import org.andrew.model.Pedido;
 import org.bson.Document;
+
+import java.util.Scanner;
 
 /**
  * @author Andrés Iglesias Camacho
@@ -12,63 +16,113 @@ import org.bson.Document;
  */
 public class Main {
     static void main() {
+        Scanner sc = new Scanner(System.in);
+        int opcion;
+
         try {
-            // Escribe tu código bro...
-            MongoDatabase db = SingletonConnection.getCliente().getDatabase("Instituto");
+            // Conectamos con la DB
+            MongoDatabase db = SingletonConnection.getCliente().getDatabase("Biblioteca");
 
-            MongoCollection<Document> collection = db.getCollection("Alumno");
+            System.out.println("""
+                ==============================
+                        APP PRINCIPAL         
+                    GESTIÓN DE BIBLIOTECA
+                ==============================""");
 
-            //Consulta previa a la inserción de un nuevo documento
-            if (collection.countDocuments() == 0) {
-                System.out.println("No se encuentran documentos en la BBDD");
-            } else {
-                for (Document encontrado : collection.find()) {
-                    System.out.println(encontrado.toJson());
+            do {
+                menuPrincipal();
+                System.out.print("Elige: ");
+                opcion = sc.nextInt();
+                sc.nextLine();
+
+                switch (opcion) {
+                    case 1:
+                        crear(db);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        System.out.println("""
+                                ==============================
+                                           NOS VEMOS
+                                ==============================
+                                """);
+                        break;
+                    default:
                 }
-            }
-
-            /**
-             * Sacar la creacion de documentos fuera del main
-             */
-
-            //Creación del documento
-            Document doc = new Document("titulo", "Ballena99708")
-                    .append("anyo", 2026)
-                    .append("completado", true);
-
-            System.out.println("\nInsertando nuevo documento");
-
-            //Insertamos el documento en la colección
-            if (collection.insertOne(doc).wasAcknowledged()) {
-                System.out.println("\nNuevo documento insertado correctamente");
-            }
-
-            /**
-             * Consultar los documentos dentro de la Collection
-             */
-
-            //Consulta básica
-            System.out.println("Documentos encontrados en la BBDD");
-            for (Document encontrado : collection.find()) {
-                System.out.println(encontrado.toJson());
-            }
+            } while (opcion != 5);
         } catch(Exception e) {
-            // Trata tu excepción
             System.err.println(e.getMessage());
         }
     }
 
     /**
-     * Esto que es¿?
+     * Metodo vacío para mostrar el menú de opciones
      */
-    public static void miau() {
+    public static void menuPrincipal() {
         System.out.println("""
                 -----------------
-                1. Broderk
-                2. Broderk?
-                3. Broderk!
+                1. Crear
+                2. Insertar
+                3. Actualizar
+                4. Borrar
+                5. Salir
                 -----------------
                 """);
+    }
+
+    public static void crear(MongoDatabase db) {
+        Scanner selector = new Scanner(System.in);
+        String titulo, autor;
+        double precio;
+
+        String titulo2;
+        int cantidad;
+        double total;
+
+        System.out.println("""
+                -_-_-_-_-_-_-_-_-_-
+                1. Alta Libros
+                2. Crear Pedido
+                -_-_-_-_-_-_-_-_-_-""");
+
+        int op = selector.nextInt();
+        selector.nextLine();
+
+        switch (op) {
+            case 1:
+                MongoCollection<Document> colLibros = db.getCollection("Libros");
+                System.out.println("Inserta (Titulo, autor, precio):");
+                titulo = selector.nextLine();
+                autor = selector.nextLine();
+                precio = selector.nextDouble();
+
+                Libro libro = new Libro(titulo, autor, precio);
+
+                if (colLibros.insertOne(libro.generarLibro()).wasAcknowledged()) {
+                    System.out.println("\nNuevo LIBRO insertado correctamente");
+                }
+                break;
+            case 2:
+                MongoCollection<Document> colPedidos = db.getCollection("Pedidos");
+                System.out.println("Inserta (Titulo, cantidad, total):");
+                titulo2 = selector.nextLine();
+                cantidad = selector.nextInt();
+                total = selector.nextDouble();
+
+                Pedido pedido = new Pedido(titulo2, cantidad, total);
+
+                if (colPedidos.insertOne(pedido.generarPedido()).wasAcknowledged()) {
+                    System.out.println("\nNuevo PEDIDO insertado correctamente");
+                }
+                break;
+            default:
+                System.out.println("Opcion no valida");
+        }
     }
 }
 
