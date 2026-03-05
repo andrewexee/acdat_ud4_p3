@@ -166,11 +166,13 @@ public class Main {
         scanner.nextLine();
 
         System.out.print("Introduce el Id: ");
-        String id = scanner.nextLine();
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
         switch (op) {
             case 1:
                 for (Document doc : db.getCollection("Libros").find()) {
-                    if (doc.get("ID").toString().equals(id)) {
+                    if (doc.get("ID").equals(id)) {
                         System.out.println(doc.toJson());
                     }
                 }
