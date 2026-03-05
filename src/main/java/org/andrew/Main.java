@@ -2,6 +2,7 @@ package org.andrew;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.andrew.db.SingletonConnection;
 
 import org.andrew.model.Libro;
@@ -171,10 +172,8 @@ public class Main {
 
         switch (op) {
             case 1:
-                for (Document doc : db.getCollection("Libros").find()) {
-                    if (doc.get("ID").equals(id)) {
-                        System.out.println(doc.toJson());
-                    }
+                for (Document doc : db.getCollection("Libros").find(Filters.eq("ID", id))) {
+                    System.out.println(doc.toJson());
                 }
                 break;
             case 2:
