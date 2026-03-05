@@ -63,7 +63,7 @@ public class Utils {
      * @return String formateada con los detalles del libro
      */
     public static String formatearL(Document doc) {
-        return String.format("ID: %d, Titulo: %s, Autor: %s, Precio: %.2f€",
+        return String.format("===== ID: %d =====\nTitulo: %s.\nAutor: %s.\nPrecio ---> %.2f€\n",
                 doc.getInteger("ID"),
                 doc.getString("Titulo"),
                 doc.getString("Autor"),
@@ -76,7 +76,7 @@ public class Utils {
      * @return String formateada con los detalles del pedido
      */
     public static String formatearP(Document doc) {
-        return String.format("ID: %d, Libro: %s, Cantidad: %s, Total: %.2f€",
+        return String.format("---> {ID: %d} <---\nLibro: %s. (x%s)\nTotal: %.2f€\n",
                 doc.getInteger("ID"),
                 doc.getString("Libro"),
                 doc.getInteger("Cantidad"),
