@@ -69,7 +69,7 @@ public class Main {
                 -----------------
                 1. Insertar
                 2. Consultar
-                3. Buscar
+                3. Buscar ID
                 4. Actualizar
                 5. Salir
                 -----------------
@@ -81,12 +81,7 @@ public class Main {
      * @param db DB donde se generarán las colecciones
      */
     public static void crear(MongoDatabase db) {
-        String titulo, autor;
-        double precio;
 
-        String titulo2;
-        int cantidad;
-        double total;
 
         System.out.println("""
                 -_-_-_-_-_-_-_-_-_-
@@ -101,9 +96,9 @@ public class Main {
             case 1:
                 MongoCollection<Document> colLibros = db.getCollection("Libros");
                 System.out.println("Inserta (Titulo, autor, precio):");
-                titulo = scanner.nextLine();
-                autor = scanner.nextLine();
-                precio = scanner.nextDouble();
+                String titulo = scanner.nextLine();
+                String autor = scanner.nextLine();
+                double precio = scanner.nextDouble();
 
                 Libro libro = new Libro(titulo, autor, precio);
 
@@ -113,12 +108,19 @@ public class Main {
                 break;
             case 2:
                 MongoCollection<Document> colPedidos = db.getCollection("Pedidos");
-                System.out.println("Inserta (Titulo, cantidad, total):");
-                titulo2 = scanner.nextLine();
-                cantidad = scanner.nextInt();
-                total = scanner.nextDouble();
+                System.out.println("Inserta (ID Libro, cantidad):");
+                int idLibro = scanner.nextInt();
+                int cantidad = scanner.nextInt();
 
-                Pedido pedido = new Pedido(titulo2, cantidad, total);
+                String tituloL = null;
+                double total = 0;
+                for (Document doc : db.getCollection("Libros").find(Filters.eq("ID", idLibro))) {
+                    tituloL = doc.getString("Titulo");
+                    double precioL = doc.getDouble("Precio");
+                    total = precioL * cantidad;
+                }
+
+                Pedido pedido = new Pedido(tituloL, cantidad, total);
 
                 if (colPedidos.insertOne(pedido.generarPedido()).wasAcknowledged()) {
                     System.out.println("\nNuevo PEDIDO insertado correctamente");
@@ -177,7 +179,9 @@ public class Main {
                 }
                 break;
             case 2:
-
+                for (Document doc : db.getCollection("Pedidos").find(Filters.eq("ID", id))) {
+                    System.out.println(doc.toJson());
+                }
                 break;
             default:
                 System.err.println("Opcion no valida");
