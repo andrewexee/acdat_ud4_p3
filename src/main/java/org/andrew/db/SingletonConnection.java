@@ -25,7 +25,7 @@ public class SingletonConnection {
             if (cliente == null) {
                 cliente = MongoClients.create(env.get("URI"));
 
-                System.out.println("Conexion exitosa con el cluster: " + env.get("URI"));
+                System.out.println("Conexion exitosa con el cluster");
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
