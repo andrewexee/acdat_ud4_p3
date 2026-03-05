@@ -105,7 +105,7 @@ public class Main {
                 String autor = scanner.nextLine();
                 double precio = scanner.nextDouble();
 
-                Libro libro = new Libro(titulo, autor, precio);
+                Libro libro = new Libro(db.getCollection("Libros"), titulo, autor, precio);
 
                 if (colLibros.insertOne(libro.generarLibro()).wasAcknowledged()) {
                     System.out.println("\nNuevo LIBRO insertado correctamente");
@@ -125,7 +125,7 @@ public class Main {
                     total = precioL * cantidad;
                 }
 
-                Pedido pedido = new Pedido(tituloL, cantidad, total);
+                Pedido pedido = new Pedido(db.getCollection("Pedidos"), tituloL, cantidad, total);
 
                 if (colPedidos.insertOne(pedido.generarPedido()).wasAcknowledged()) {
                     System.out.println("\nNuevo PEDIDO insertado correctamente");
@@ -136,6 +136,10 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo para consultar todos los documentos de las colecciones Libros o Pedidos
+     * @param db DB donde se encuentran las colecciones a consultar
+     */
     public static void consultar(MongoDatabase db) {
 
         System.out.println("""
@@ -165,6 +169,10 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo para consultar un documento de las colecciones Libros o Pedidos a través de su ID
+     * @param db DB donde se encuentran las colecciones a consultar
+     */
     public static void consultarID(MongoDatabase db) {
 
         System.out.println("""
@@ -197,6 +205,10 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo para actualizar un documento de las colecciones Libros o Pedidos a través de su ID
+     * @param db DB donde se encuentran las colecciones a actualizar
+     */
     public static void actualizar(MongoDatabase db) {
         System.out.println("""
                 -_-_-_-_-_-_-_-_-_-
