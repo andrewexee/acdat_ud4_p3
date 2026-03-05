@@ -28,7 +28,7 @@ public class Main {
 
             System.out.println("""
                 ==============================
-                        APP PRINCIPAL
+                     📥 APP PRINCIPAL 📚
                     GESTIÓN DE BIBLIOTECA
                 ==============================""");
 
@@ -54,7 +54,7 @@ public class Main {
                     case 5:
                         System.out.println("""
                                 ==============================
-                                           NOS VEMOS
+                                        🙋‍♀️ NOS VEMOS 🙋‍♂️
                                 ==============================
                                 """);
                         break;
