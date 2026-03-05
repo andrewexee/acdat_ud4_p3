@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import org.bson.Document;
 
 /**
  * @author Andrés Iglesias Camacho
@@ -54,5 +55,31 @@ public class Utils {
         }
 
         return envVars;
+    }
+
+    /**
+     * Formatea un documento de libro para su visualización.
+     * @param doc Documento que representa un libro
+     * @return String formateada con los detalles del libro
+     */
+    public static String formatearL(Document doc) {
+        return String.format("ID: %d, Titulo: %s, Autor: %s, Precio: %.2f€",
+                doc.getInteger("ID"),
+                doc.getString("Titulo"),
+                doc.getString("Autor"),
+                doc.getDouble("Precio"));
+    }
+
+    /**
+     * Formatea un documento de pedido para su visualización.
+     * @param doc Documento que representa un pedido
+     * @return String formateada con los detalles del pedido
+     */
+    public static String formatearP(Document doc) {
+        return String.format("ID: %d, Libro: %s, Cantidad: %s, Total: %.2f€",
+                doc.getInteger("ID"),
+                doc.getString("Libro"),
+                doc.getInteger("Cantidad"),
+                doc.getDouble("Total"));
     }
 }

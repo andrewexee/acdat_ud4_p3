@@ -5,6 +5,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.andrew.db.SingletonConnection;
 
+import org.andrew.db.Utils;
 import org.andrew.model.Libro;
 import org.andrew.model.Pedido;
 import org.bson.Document;
@@ -145,12 +146,14 @@ public class Main {
         switch (op) {
             case 1:
                 for (Document doc : db.getCollection("Libros").find()) {
-                    System.out.println(doc.toJson());
+                    System.out.println(Utils.formatearL(doc));
+                    //System.out.println(doc.toJson());
                 }
                 break;
             case 2:
                 for (Document doc : db.getCollection("Pedidos").find()) {
-                    System.out.println(doc.toJson());
+                    System.out.println(Utils.formatearP(doc));
+                    //System.out.println(doc.toJson());
                 }
                 break;
             default:
@@ -175,12 +178,14 @@ public class Main {
         switch (op) {
             case 1:
                 for (Document doc : db.getCollection("Libros").find(Filters.eq("ID", id))) {
-                    System.out.println(doc.toJson());
+                    System.out.println(Utils.formatearL(doc));
+                    //System.out.println(doc.toJson());
                 }
                 break;
             case 2:
                 for (Document doc : db.getCollection("Pedidos").find(Filters.eq("ID", id))) {
-                    System.out.println(doc.toJson());
+                    System.out.println(Utils.formatearP(doc));
+                    //System.out.println(doc.toJson());
                 }
                 break;
             default:
