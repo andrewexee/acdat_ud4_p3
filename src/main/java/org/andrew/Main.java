@@ -3,6 +3,7 @@ package org.andrew;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import org.andrew.db.SingletonConnection;
 
 import org.andrew.db.Utils;
@@ -46,6 +47,9 @@ public class Main {
                         break;
                     case 3:
                         consultarID(db);
+                        break;
+                    case 4:
+                        actualizar(db);
                         break;
                     case 5:
                         System.out.println("""
@@ -187,6 +191,64 @@ public class Main {
                     System.out.println(Utils.formatearP(doc));
                     //System.out.println(doc.toJson());
                 }
+                break;
+            default:
+                System.err.println("Opcion no valida");
+        }
+    }
+
+    public static void actualizar(MongoDatabase db) {
+        System.out.println("""
+                -_-_-_-_-_-_-_-_-_-
+                1. Actualizar Libro
+                2. Actualizar Pedido
+                -_-_-_-_-_-_-_-_-_-""");
+        int op = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Introduce el Id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (op) {
+            case 1:
+                System.out.println("Introduce los nuevos campos (Titulo, autor, precio):");
+                String titulo = scanner.nextLine();
+                String autor = scanner.nextLine();
+                double precio = scanner.nextDouble();
+
+                db.getCollection("Libros").updateOne(
+                        Filters.eq("ID", id),
+                        Updates.combine(
+                                Updates.set("Titulo", titulo),
+                                Updates.set("Autor", autor),
+                                Updates.set("Precio", precio)
+                        )
+                );
+
+                break;
+            case 2:
+                System.out.println("Introduce los nuevos campos (ID Libro, cantidad):");
+                int idLibro = scanner.nextInt();
+                int cantidad = scanner.nextInt();
+
+                double total = 0;
+                String nombreL = null;
+                for (Document doc : db.getCollection("Libros").find(Filters.eq("ID", idLibro))) {
+                    nombreL = doc.getString("Titulo");
+                    double precioL = doc.getDouble("Precio");
+                    total = precioL * cantidad;
+                }
+
+                db.getCollection("Pedidos").updateOne(
+                        Filters.eq("ID", id),
+                        Updates.combine(
+                                Updates.set("Libro", nombreL),
+                                Updates.set("Cantidad", cantidad),
+                                Updates.set("Total", total)
+                        )
+                );
+
                 break;
             default:
                 System.err.println("Opcion no valida");
